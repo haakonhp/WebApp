@@ -1,0 +1,178 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db?connection_limit=1&connect_timeout=30"
+}
+
+model User {
+  id          String             @id @default(uuid())
+  userId      String             @unique
+  gender      String
+  sportType   Sports             @relation(fields: [sport], references: [sport])
+  metaHistory UserExtendedMeta[]
+  activities  userActivity[]
+  Tournaments Tournament[]
+  Goals       personalGoal[]
+  sport       String
+}
+
+model UserExtendedMeta {
+  id            String    @id @default(uuid())
+  userId        String
+  User          User      @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  creation_time DateTime? @default(now())
+
+  heartrate Int
+  watt      Int
+  speed     Int
+
+  @@unique([userId, creation_time])
+}
+
+model Sports {
+  sport        String         @id
+  User         User[]
+  userActivity userActivity[]
+  Template     Template[]
+  Tournament   Tournament[]
+}
+
+model userActivity {
+  goalId           String                  @id @default(uuid())
+  userId           String
+  User             User                    @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  date             DateTime?
+  name             String?
+  slug             String
+  tagsStringable   String
+  intensityChecked Boolean                 @default(false)
+  wattChecked      Boolean                 @default(false)
+  speedChecked     Boolean                 @default(false)
+  heartrateChecked Boolean                 @default(false)
+  sportType        Sports?                 @relation(fields: [sport], references: [sport])
+  sport            String?
+  template         String?
+  createdFrom      Template?               @relation(fields: [template], references: [id])
+  tags             UserActivityTags[]
+  intervals        UserActivityInterval[]
+  questions        UserActivityQuestions[]
+  tournament       Tournament?             @relation(fields: [tournamentId], references: [id])
+  tournamentId     String?
+  personalGoal     personalGoal?           @relation(fields: [personalGoalId], references: [id])
+  personalGoalId   String?
+  activityReport   activityReport[]
+}
+
+model activityReport {
+  id                String       @id @default(uuid())
+  status            String
+  UserActivity      userActivity @relation(fields: [connectedActivity], references: [goalId], onDelete: Cascade)
+  connectedActivity String
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  comment           String?
+
+  @@unique([connectedActivity])
+}
+
+model UserActivityTags {
+  tagId             String        @id @default(uuid())
+  tag               String
+  UserActivity      userActivity? @relation(fields: [connectedActivity], references: [goalId], onDelete: Cascade)
+  connectedActivity String?
+}
+
+model UserActivityQuestions {
+  id                String        @id @default(uuid())
+  question          String
+  type              String
+  answer            String
+  UserActivity      userActivity? @relation(fields: [connectedActivity], references: [goalId], onDelete: Cascade)
+  connectedActivity String?
+}
+
+model UserActivityInterval {
+  id                     String        @id @default(uuid())
+  duration               Int
+  intensity              Int
+  intervalNr             Int
+  perceivedIntensityGoal Int?
+  perceivedIntensityMin  Int?
+  perceivedIntensityAvg  Int?
+  perceivedIntensityMax  Int?
+  wattGoal               Int?
+  wattMin                Int?
+  wattAvg                Int?
+  wattMax                Int?
+  speedGoal              Int?
+  speedMin               Int?
+  speedAvg               Int?
+  speedMax               Int?
+  heartrateGoal          Int?
+  heartrateMin           Int?
+  heartrateAvg           Int?
+  heartrateMax           Int?
+  UserActivity           userActivity? @relation(fields: [connectedActivity], references: [goalId], onDelete: Cascade)
+  templateId             String?
+  connectedTemplate      Template?     @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  connectedActivity      String?
+}
+
+model Template {
+  id                   String                 @id @default(uuid())
+  name                 String
+  tagsStringable       String
+  slug                 String
+  sport                String
+  sportType            Sports                 @relation(fields: [sport], references: [sport])
+  intensityChecked     Boolean                @default(false)
+  wattChecked          Boolean                @default(false)
+  speedChecked         Boolean                @default(false)
+  heartrateChecked     Boolean                @default(false)
+  userActivity         userActivity[]
+  UserActivityInterval UserActivityInterval[]
+  templateQuestions    templateQuestion[]
+
+  @@unique([name])
+  @@unique([slug])
+}
+
+model templateQuestion {
+  templateQuestionId String     @id @default(uuid())
+  question           String
+  type               String
+  templates          Template[]
+}
+
+model Tournament {
+  id          String   @id @default(uuid())
+  description String
+  goal        String
+  name        String
+  priority    Int
+  user        User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId      String
+  createdAt   DateTime @default(now())
+  date        DateTime
+  location    String
+  sportType   Sports   @relation(fields: [sport], references: [sport])
+  sport       String
+
+  userActivity userActivity[]
+
+  @@unique([userId, priority])
+}
+
+model personalGoal {
+  id           String         @id @default(uuid())
+  name         String
+  date         DateTime
+  goal         Int
+  comment      String?
+  createdBy    User           @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId       String
+  userActivity userActivity[]
+}

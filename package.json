@@ -1,0 +1,10 @@
+{
+  "name": "eksamen",
+  "version": "1.0.0",
+  "author": "Håkon Halland Hovland Pedersen, Jarle Syvertsen, Anel Hadzic, Andreas Sebastian Salomonsen Thorbjørnsen",
+  "dependencies": {
+    "date-fns": "^2.30.0",
+    "react-datepicker": "^4.23.0",
+    "vitest": "^0.34.6"
+  }
+}

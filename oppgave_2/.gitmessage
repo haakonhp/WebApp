@@ -1,0 +1,39 @@
+<type>: <subject> hello
+DESCRIPTION: 
+- 
+- 
+# BREAKING CHANGE: (fjern # om dette er en breaking change)
+
+-- COMMIT END --
+
+# 		Forklaringer:
+# alle linjer bak en hashtag blir ikke med
+# TYPE COMMIT: (skriv hva slags commit det er, feat, fix, docs, refactor, test, style) Fix to this function
+
+# DESCRIPTION: (skriv en beskrivelse av hva du har gjort)
+# - value 1 (legg til punkter hvis det er relevant til beskrivelsen)
+# - value 2
+
+# BREAKING CHANGE: (hvis endringen du har gjort ødelegger koden skriv hva som ikke fungerer og legg til "!" bak type commit)
+# BREAKING CHANGE:
+
+# EKSEMPEL fullstendig commit med !:
+#------------------------------------
+#feat!: Adds login function for user portal.
+# DESCRIPTION: Tied together the necessary code functions needed to login through frontend GUI.
+#- def get_user_name
+#- def get_user_password
+#- def authenticate_user
+# BREAKING CHANGE: The user authenticator no longer works.
+#------------------------------------
+
+# EKSEMPEL fullstendig commit uten !:
+#------------------------------------
+#feat: Adds login function for user portal.
+# DESCRIPTION: Tied together the necessary code functions needed to login through frontend GUI.
+#- def get_user_name
+#- def get_user_password
+#- def authenticate_user
+#------------------------------------
+# Link til side om GIT commits: https://www.conventionalcommits.org/en/v1.0.0/
+#------------------------------------
