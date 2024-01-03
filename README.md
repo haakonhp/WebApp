@@ -1,3 +1,13 @@
+# Web Application Group Exam Autmun 2023
+## (React.js, Next.js, TS)
+
+Group consisted of four members:
+https://github.com/AnelHadzic
+https://github.com/athorbjornsen
+https://github.com/JarleSyvertsen
+
+We recived a A on the Exam
+
 # Eksamen i Webutvikling
 
 Repository for oppgave 1 og 2. Arbeidet har funnet sted fra 06.11 til 04.12, og har blitt utført av gruppe 5.
