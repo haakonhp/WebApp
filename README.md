@@ -6,7 +6,7 @@ https://github.com/AnelHadzic
 https://github.com/athorbjornsen
 https://github.com/JarleSyvertsen
 
-We recived a A on the Exam
+### We recived a A on the Exam
 
 # Eksamen i Webutvikling
 
